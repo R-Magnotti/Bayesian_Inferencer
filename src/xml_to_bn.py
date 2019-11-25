@@ -131,20 +131,3 @@ def get_var_names(y):
   for i in y:
     l1.append(i.name)
   return l1
-
-def main():
-  start = bayesian_network('root')
-  tree = ET.parse('aima-alarm1.xml')
-  root = tree.getroot()
-  test = make_nodes(root)
-  networkList = make_network(root, test, start)
-
-  #topologically ordered list of nodes
-  # y[0] is the root node of the graph which represents the entire graph
-  postOrderNodes = linearize(networkList)
-
-  lo = get_var_names(postOrderNodes)
-  lo = lo
-  print(lo)
-
-main()
