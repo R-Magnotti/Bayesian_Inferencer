@@ -99,6 +99,12 @@ def make_network(xml_node , var_nodes , root_node):
         t.probs = space_parser(i[len(i) - 1].text)
   return [root_node] + var_nodes
 
+def get_var_names(y):
+  l1 = []
+  for i in y:
+    l1.append(i.name)
+  return l1
+
 #this function linearizes the order of nodes based on their dependencies and returns the topological ordering
 #accepts root node n, and bn - Baye Network as list
 def linearize(bn):
@@ -125,9 +131,3 @@ def linearize(bn):
         visited[item.name] = True
 
   return postOrderNetworkList
-
-def get_var_names(y):
-  l1 = []
-  for i in y:
-    l1.append(i.name)
-  return l1

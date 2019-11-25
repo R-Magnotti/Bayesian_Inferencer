@@ -1,5 +1,4 @@
 import xml_to_bn as xml
-#from xml_to_bn import
 
 #params:
 #   X = query X. 1 symbol: str/char
@@ -10,15 +9,23 @@ def enumerateAsk(X, evidence, bn, varList):
     #Q is the distribution which in our case will only have 1 element
     Q = None #will be a single float value
     # would be a forloop if we didn't have the prerequisite that the query can only be one variable
-    evidence.append(X)
-
-    print(varList)
+    evidence[X] = True
 
     Q = enumerateAll(bn, evidence, varList)
 
 #takes params list representation of bayesian network bn, and evidence e
 def enumerateAll(bn, e, vars):
-    if
+    if vars == []:
+        return 1
+    print('vars[0] ', vars[0], ' and e.keys ', e.keys())
+    if vars[0] in e.keys():
+        # get the value of y that is in the evidence
+        y = (vars[0], e[vars[0]])
+        print('y value ', y)
+
+    else:
+        pass
+
 
 # global scope variables from the xml parser
 def main():
@@ -31,10 +38,9 @@ def main():
     # topologically ordered list of nodes
     # y[0] is the root node of the graph which represents the entire graph
     postOrderNodes = xml.linearize(networkList)
-
     postOrderList = xml.get_var_names(postOrderNodes)
-    print(postOrderList)
+    postOrderList = postOrderList[1:]
 
-    enumerateAsk('A', ['B', 'C'], networkList, postOrderList)
+    enumerateAsk('B', {'B':True, 'C':False}, postOrderNodes, postOrderList)
 
 main()
