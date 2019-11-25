@@ -10,6 +10,19 @@ Original file is located at
 import xml.etree.ElementTree as ET
 import random
 
+class Queue:
+  def __init__(self):
+    self.queue = []
+
+  def enqueue(self, value):
+    self.queue.append(value)
+
+  def dequeue(self):
+    return self.queue.pop(0)
+
+  def isEmpty(self):
+    return self.queue == []
+
 class bayesian_network:
 
   def __init__(self , name):
@@ -19,12 +32,12 @@ class bayesian_network:
     self.probs = None
     self.value = 0
 
-  def __repr__(self):
-    one = ("Variable Name : {}\n".format(self.name))
-    two = ("Number of children : {}\n".format(len(self.children)))
-    three = ("Number of parents : {}\n".format(len(self.parent)))
-    four = ("Value : {}\n".format(self.value))
-    return one + two + three + four
+  # def __repr__(self):
+  #   one = ("Variable Name : {}\n".format(self.name))
+  #   two = ("Number of children : {}\n".format(len(self.children)))
+  #   three = ("Number of parents : {}\n".format(len(self.parent)))
+  #   four = ("Value : {}\n".format(self.value))
+  #   return one + two + three + four
 
   def flip(self , p):
     if random.random() < p :
@@ -86,9 +99,52 @@ def make_network(xml_node , var_nodes , root_node):
         t.probs = space_parser(i[len(i) - 1].text)
   return [root_node] + var_nodes
 
+#this function linearizes the order of nodes based on their dependencies and returns the topological ordering
+#accepts root node n, and bn - Baye Network as list
+def linearize(bn):
+  #n = root node
+  n = bn[0]
+  postOrderNetworkList = []
+  visited = {}
+  #zero out the list of visited nodes
+  for item in bn:
+    visited[item.name] = False
 
-start = bayesian_network('root')
-tree = ET.parse('aima-alarm.xml')
-root = tree.getroot()
-test = make_nodes(root)
-y = make_network(root , test , start)
+  Q = Queue()
+
+  Q.enqueue(n)
+  visited[n.name] = True
+
+  while Q.isEmpty() is False:
+    n = Q.dequeue()
+    postOrderNetworkList.append(n)
+
+    for item in n.children:
+      if visited[item.name] == False:
+        Q.enqueue(item)
+        visited[item.name] = True
+
+  return postOrderNetworkList
+
+def get_var_names(y):
+  l1 = []
+  for i in y:
+    l1.append(i.name)
+  return l1
+
+def main():
+  start = bayesian_network('root')
+  tree = ET.parse('aima-alarm1.xml')
+  root = tree.getroot()
+  test = make_nodes(root)
+  networkList = make_network(root, test, start)
+
+  #topologically ordered list of nodes
+  # y[0] is the root node of the graph which represents the entire graph
+  postOrderNodes = linearize(networkList)
+
+  lo = get_var_names(postOrderNodes)
+  lo = lo
+  print(lo)
+
+main()
