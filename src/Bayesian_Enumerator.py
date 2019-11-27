@@ -1,4 +1,3 @@
-import xml_to_bn as xml
 import copy
 
 #params:
@@ -17,7 +16,7 @@ def enumerateAsk(X, evidence, bn, varList):
         print('original Q value ', Q)
     return normalize(Q)
 
-def normalize(q): #√
+def normalize(q):
     tot = 0
     for item in q:
         tot = tot + item
@@ -156,24 +155,3 @@ def enumerateAll(bn, e, vars):
 
         print('partial prob NOT IN EVIDENCE', partialProb)
         return partialProb
-
-# global scope variables from the xml parser
-def main():
-    start = xml.bayesian_network('root')
-    tree = xml.ET.parse('aima-alarm1.xml')
-    root = tree.getroot()
-    test = xml.make_nodes(root)
-    networkList = xml.make_network(root, test, start)
-
-    # topologically ordered list of nodes
-    postOrderNodes = xml.linearize(networkList)
-    postOrderNodesCut = postOrderNodes[1:]  # the entire list of nodes minus the root node
-
-    # postOrderList is JUST A LIST OF NODE NAMES, NOT NODE OBJECTS
-    postOrderList = xml.get_var_names(postOrderNodes)
-    postOrderListCut = postOrderList[1:] #the entire list of nodes minus the root node
-
-    distributionQ = enumerateAsk(['B', (True, False)], {'J':True, 'M':True}, postOrderNodesCut, postOrderListCut)
-    print('normalized Q value ', distributionQ)
-
-main()

@@ -65,7 +65,6 @@
 	<PROPERTY>position = (112, 69)</PROPERTY>
 </VARIABLE>
 
-
 <!-- Probability distributions -->
 <DEFINITION>
 	<FOR>light-on</FOR>
@@ -75,25 +74,25 @@
 
 <DEFINITION>
 	<FOR>bowel-problem</FOR>
-	<TABLE>0.01 0.99 </TABLE>
+	<TABLE>0.01 0.99</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>dog-out</FOR>
 	<GIVEN>bowel-problem</GIVEN>
 	<GIVEN>family-out</GIVEN>
-	<TABLE>0.99 0.01 0.97 0.03 0.9 0.1 0.3  0.7 </TABLE>
+	<TABLE>0.99 0.01 0.97 0.03 0.9 0.1 0.3 0.7</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>hear-bark</FOR>
 	<GIVEN>dog-out</GIVEN>
-	<TABLE>0.7 0.3 0.01 0.99 </TABLE>
+	<TABLE>0.7 0.3 0.01 0.99</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>family-out</FOR>
-	<TABLE>0.15 0.85 </TABLE>
+	<TABLE>0.15 0.85</TABLE>
 </DEFINITION>
 
 
