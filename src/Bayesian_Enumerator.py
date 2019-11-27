@@ -7,24 +7,44 @@ import copy
 #   bn = bayesian network, represented by unordered list
 #   varList = list of variables in topological order
 def enumerateAsk(X, evidence, bn, varList):
-    #Q is the distribution which in our case will only have 1 element
-    Q = None #will be a single float value
-    # would be a forloop if we didn't have the prerequisite that the query can only be one variable
-    evidence[X] = True
+    #Q is the distribution which in our case will only have 2 elements:
+    #   1 element for each possible value of our query: T and F
+    Q = []
+    for item in X[1]:
+        evidence[X[0]] = item
+        Q.append(enumerateAll(bn, evidence, varList))
+        print('---------------------------------------------------------------------------')
+        print('original Q value ', Q)
+    return normalize(Q)
 
-    Q = enumerateAll(bn, evidence, varList)
-    return Q
+def normalize(q): #√
+    tot = 0
+    for item in q:
+        tot = tot + item
+    for item in range(len(q)):
+        q[item] = q[item]/tot
+    return q
+
+def findNode(bn, k):
+    for item in bn:
+        if item.name == k:
+            return item
 
 #takes params list representation of bayesian network bn, and evidence e
 def enumerateAll(bn, e, vars):
-    print('currently passed vars ', vars)
+    #must set network variable probabilities here
+    for k, v in e.items():
+        node = findNode(bn, k)
+        if v is True:
+            node.value = 1
+        else:
+            node.value = 0
+
     if vars == []:
         return 1
 
-    print(vars[0])
     #if current variable from list is in the evidence
     if vars[0] in e.keys():
-
         truthValueList = []
 
         # get the value of y that is in the evidence
@@ -47,28 +67,31 @@ def enumerateAll(bn, e, vars):
                 break
 
         #grab truth values of parents of y
+        parentNameList = {}
         for item in parentsY:
+            #print('current parent value ', item.value)
             #to make sure to get rid of root node from probability distribution
             if item.name == 'root':
                 break
+
+            parentNameList[item.name] = item.value
             # XML order of probabilities is reversed
             # add truth value in REVERSE, so T = 0, F = 1
-            if item.value is True:
+            if item.value == 1:
                 truthValueList.append('0')
             else:
                 truthValueList.append('1')
-        print('truth value list ', truthValueList)
 
         #grab the decimal representation of this binary number
         decVal = int(''.join(truthValueList), 2)
 
         #grab the decVal-th element from the list
         ithProbability = currQueryNode.probs[decVal]
-        print(ithProbability)
+        print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' with evidence ', e, ' has probability ', ithProbability, ' with binary value ', truthValueList, ' and decimal value ', decVal)
 
-        print(' ith prob ', ithProbability)
+        partialProb = ithProbability*enumerateAll(bn, e, vars[1:])
 
-        return ithProbability*enumerateAll(bn, e, vars[1:])
+        return partialProb
 
     else:
         #truth value lists for each respective possible value of y
@@ -87,20 +110,21 @@ def enumerateAll(bn, e, vars):
                 break
 
         #grab truth values of parents of y
+        parentNameList = {}
         for item in parentsY:
             #to make sure to get rid of root node from probability distribution
             if item.name == 'root':
                 break
+            parentNameList[item.name] = item.value
 
             # XML order of probabilities is reversed
             # add truth value in REVERSE, so T = 0, F = 1
-            if item.value is True:
+            if item.value == 1:
                 truthValueList1.append('0')
                 truthValueList2.append('0')
             else:
                 truthValueList1.append('1')
                 truthValueList2.append('1')
-        print('truth value list 1', truthValueList1, ' truth value list 2 ', truthValueList2)
 
         #grab the decimal representation of this binary number
         decVal1 = int(''.join(truthValueList1), 2)
@@ -108,9 +132,11 @@ def enumerateAll(bn, e, vars):
 
         #grab the decVal-th element from the list
         print('dec val 1 ', decVal1, 'dec val 2 ', decVal2)
+
         ithProbability1 = currQueryNode.probs[decVal1]
         ithProbability2 = currQueryNode.probs[decVal2]
-        print('ith prob 1 ', ithProbability1, 'ith prob 2 ', ithProbability2)
+
+        #now we update the respective networks...PROBABLY?
 
         #add y value to the evidence
         e1 = copy.deepcopy(e)
@@ -118,11 +144,18 @@ def enumerateAll(bn, e, vars):
 
         e1[vars[0]] = True
         e2[vars[0]] = False
+        print('\nevidence 1: ', e1, ' evidence 2 ', e2, '\n')
+
+        print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' has probability ', ithProbability1, ithProbability2, ' with binary value ', truthValueList1, truthValueList2, ' and decimal value ', decVal1, decVal2)
+
 
         partialProbSum1 = ithProbability1 * enumerateAll(bn, e1, vars[1:])
         partialProbSum2 = ithProbability2 * enumerateAll(bn, e2, vars[1:])
 
-        return partialProbSum1+partialProbSum2
+        partialProb = partialProbSum1 + partialProbSum2
+
+        print('partial prob NOT IN EVIDENCE', partialProb)
+        return partialProb
 
 # global scope variables from the xml parser
 def main():
@@ -140,7 +173,7 @@ def main():
     postOrderList = xml.get_var_names(postOrderNodes)
     postOrderListCut = postOrderList[1:] #the entire list of nodes minus the root node
 
-    distributionQ = enumerateAsk('B', {'J':True, 'M':True}, postOrderNodesCut, postOrderListCut)
-    print(distributionQ)
+    distributionQ = enumerateAsk(['B', (True, False)], {'J':True, 'M':True}, postOrderNodesCut, postOrderListCut)
+    print('normalized Q value ', distributionQ)
 
 main()
