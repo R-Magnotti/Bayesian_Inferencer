@@ -1,6 +1,7 @@
 import xml_to_bn as xml
 import Bayesian_Enumerator as ben
 import sys
+import bayesian_networks as qins
 
 def main():
     # to get user input in order: fileName.xml query_variable evidence/truthValues
@@ -8,6 +9,7 @@ def main():
     print('****************************************************************')
     print('************ Welcome to the Bayesian Network Driver ************')
     print('****************************************************************')
+    print('\n')
 
     fileName = sys.argv[1]
     queryX = str(sys.argv[2])
@@ -18,7 +20,10 @@ def main():
         if 'True' in evidenceList[i] or 'False' in evidenceList[i]: #if it's a letter/variable
             evidenceE[evidenceList[i-1]] = evidenceList[i]
 
-    print('User entered values: ', fileName, queryX, evidenceList, evidenceE)
+    print('User entered values')
+    print('File Selected : {}'.format(fileName))
+    print('Query Variable : {}'.format(queryX))
+    print('Evidence Provided : {}\n'.format(evidenceE))
 
     start = xml.bayesian_network('root')
     #tree = xml.ET.parse('aima-alarm1.xml')
@@ -39,10 +44,22 @@ def main():
     #                                  {'J': True, 'M':True},
     #                                  postOrderNodesCut, postOrderListCut)
 
-    distributionQ = ben.enumerateAsk([queryX, (True, False)], evidenceE,
-                                     postOrderNodesCut, postOrderListCut)
-
-    print('normalized distribution ', distributionQ)
+    distributionQ = ben.enumerateAsk([queryX, (True, False)], evidenceE, postOrderNodesCut, postOrderListCut)
+    print('Results from Exact Inference :     ', distributionQ)
+    
+    l1 = []
+    for k,v in evidenceE.items() :
+        if v == 'True' and k != queryX:
+            l1.append((k,1))
+        if v == 'False' and k != queryX:
+            l1.append((k,0))
+    c = qins.likelihood_sampling([(queryX , 1)] , l1, 500000 , postOrderNodes)
+    print('Results from Likelihood Sampling : ' , [c , 1-c])
+    if distributionQ[0] > c :
+        error = ((distributionQ[0] - c)/(distributionQ[0])) * 100
+    else:
+        error = ((-distributionQ[0] + c)/(distributionQ[0])) * 100
+    print("Percentage Error : " , error)
 
 if __name__ == '__main__':
     main()
