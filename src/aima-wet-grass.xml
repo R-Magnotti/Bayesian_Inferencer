@@ -68,22 +68,14 @@ Time-stamp: <Wed Mar 28 14:25:41 EDT 2012 ferguson>
 <DEFINITION>
 	<FOR>S</FOR>
 	<GIVEN>C</GIVEN>
-	<TABLE>
-	  <!--          S    !S -->
-	  <!-- C -->   0.1   0.9
-	  <!-- !C -->  0.5   0.5
-	</TABLE>
+	<TABLE>0.1 0.5 0.9 0.5</TABLE>
 </DEFINITION>
 
 <!-- P(R|C) -->
 <DEFINITION>
 	<FOR>R</FOR>
 	<GIVEN>C</GIVEN>
-	<TABLE>
-	  <!--          R    !R -->
-	  <!-- C -->   0.8   0.2
-	  <!-- !C -->  0.2   0.8
-	</TABLE>
+	<TABLE>0.8 0.2 0.2 0.8</TABLE>
 </DEFINITION>
 
 <!-- P(W|S,R) -->
@@ -91,13 +83,7 @@ Time-stamp: <Wed Mar 28 14:25:41 EDT 2012 ferguson>
 	<FOR>W</FOR>
 	<GIVEN>S</GIVEN>
 	<GIVEN>R</GIVEN>
-	<TABLE>
-	  <!--            W     !W -->
-	  <!-- S R -->   0.99  0.01
-	  <!-- S !R -->  0.90  0.1
-	  <!-- !S R -->  0.90  0.1
-	  <!-- !S !R --> 0.0   1.0
-	</TABLE>
+	<TABLE>0.99 0.90 0.90 0.0 0.01 0.1 0.1 1.0</TABLE>
 </DEFINITION>
 
 </NETWORK>
