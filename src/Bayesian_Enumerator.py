@@ -12,8 +12,6 @@ def enumerateAsk(X, evidence, bn, varList):
     for item in X[1]:
         evidence[X[0]] = item
         Q.append(enumerateAll(bn, evidence, varList))
-        print('---------------------------------------------------------------------------')
-        print('original Q value ', Q)
     return normalize(Q)
 
 def normalize(q):
@@ -86,7 +84,7 @@ def enumerateAll(bn, e, vars):
 
         #grab the decVal-th element from the list
         ithProbability = currQueryNode.probs[decVal]
-        print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' with evidence ', e, ' has probability ', ithProbability, ' with binary value ', truthValueList, ' and decimal value ', decVal)
+        #print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' with evidence ', e, ' has probability ', ithProbability, ' with binary value ', truthValueList, ' and decimal value ', decVal)
 
         partialProb = ithProbability*enumerateAll(bn, e, vars[1:])
 
@@ -130,8 +128,6 @@ def enumerateAll(bn, e, vars):
         decVal2 = int(''.join(truthValueList2), 2)
 
         #grab the decVal-th element from the list
-        print('dec val 1 ', decVal1, 'dec val 2 ', decVal2)
-
         ithProbability1 = currQueryNode.probs[decVal1]
         ithProbability2 = currQueryNode.probs[decVal2]
 
@@ -143,9 +139,8 @@ def enumerateAll(bn, e, vars):
 
         e1[vars[0]] = True
         e2[vars[0]] = False
-        print('\nevidence 1: ', e1, ' evidence 2 ', e2, '\n')
 
-        print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' has probability ', ithProbability1, ithProbability2, ' with binary value ', truthValueList1, truthValueList2, ' and decimal value ', decVal1, decVal2)
+        #print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' has probability ', ithProbability1, ithProbability2, ' with binary value ', truthValueList1, truthValueList2, ' and decimal value ', decVal1, decVal2)
 
 
         partialProbSum1 = ithProbability1 * enumerateAll(bn, e1, vars[1:])
@@ -153,5 +148,4 @@ def enumerateAll(bn, e, vars):
 
         partialProb = partialProbSum1 + partialProbSum2
 
-        print('partial prob NOT IN EVIDENCE', partialProb)
         return partialProb

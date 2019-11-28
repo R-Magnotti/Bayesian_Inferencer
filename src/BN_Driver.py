@@ -4,33 +4,24 @@ import sys
 
 def main():
     # to get user input in order: fileName.xml query_variable evidence/truthValues
+    print('\n')
     print('****************************************************************')
     print('************ Welcome to the Bayesian Network Driver ************')
     print('****************************************************************')
-    correct = 'N'
-    while correct == 'N':
-        try:
-            fileName = input('\nWhich file would you like to access?\n')
-        
-        queryX = input('\nPlease enter the query variable: \n')
-        evidenceE = {}
 
-        n = input('\nPlease enter the number of total evidence variables: \n')
-        for i in range(int(n)):
-            print('\nWhat is the ', i + 1, 'th variable name?')
-            var = input('')
-            print('\nWhat is ', var, "'s truth value?")
-            tValue = input('')
-            evidenceE[var] = bool(tValue)
+    fileName = sys.argv[1]
+    queryX = str(sys.argv[2])
+    evidenceList = sys.argv[3:]
 
-        print('\n')
-        print('You have entered:\n', 'File name: ', fileName, '\nQuery: ', queryX, '\nEvidence: ', evidenceE, )
-        correct = input('\nIs this correct? Y/N\n')
+    evidenceE = {}
+    for i in range(len(evidenceList)):
+        if 'True' in evidenceList[i] or 'False' in evidenceList[i]: #if it's a letter/variable
+            evidenceE[evidenceList[i-1]] = evidenceList[i]
 
-    print('----------------------CALCULATIONS----------------------')
+    print('User entered values: ', fileName, queryX, evidenceList, evidenceE)
 
     start = xml.bayesian_network('root')
-    #tree = xml.ET.parse('aima-alarm1.xml')  # right now this doesnt work for aima-wet-grass.xml
+    #tree = xml.ET.parse('aima-alarm1.xml')
     tree = xml.ET.parse(fileName)
     root = tree.getroot()
     test = xml.make_nodes(root)
@@ -51,7 +42,7 @@ def main():
     distributionQ = ben.enumerateAsk([queryX, (True, False)], evidenceE,
                                      postOrderNodesCut, postOrderListCut)
 
-    print('normalized Q value ', distributionQ)
+    print('normalized distribution ', distributionQ)
 
 if __name__ == '__main__':
     main()
