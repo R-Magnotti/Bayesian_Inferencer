@@ -142,7 +142,7 @@ def rejection_sampling(query_vars , evidence_vars , number_of_runs , network):
   count = 0
   event_count = 0
   number = 0
-  while count < number_of_runs:
+  while number < number_of_runs:
     number = number + 1
     q = queue()
     q.add(network[0])
