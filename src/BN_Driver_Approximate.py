@@ -11,9 +11,10 @@ def main():
     print('****************************************************************')
     print('\n')
 
-    fileName = sys.argv[1]
-    queryX = str(sys.argv[2])
-    evidenceList = sys.argv[3:]
+    number_runs = int(sys.argv[1])
+    fileName = sys.argv[2]
+    queryX = str(sys.argv[3])
+    evidenceList = sys.argv[4:]
 
     evidenceE = {}
     for i in range(len(evidenceList)):
@@ -53,8 +54,8 @@ def main():
             l1.append((k,1))
         if v == 'False' and k != queryX:
             l1.append((k,0))
-    d = qins.rejection_sampling([(queryX , 1)] , l1, 10000 , postOrderNodes)
-    c = qins.likelihood_sampling([(queryX , 1)] , l1, 10000 , postOrderNodes)
+    d = qins.rejection_sampling([(queryX , 1)] , l1, number_runs , postOrderNodes)
+    c = qins.likelihood_sampling([(queryX , 1)] , l1, number_runs , postOrderNodes)
     print('Results from Likelihood Sampling : ' , [c , 1-c])
     print('Results from Rejection Sampling  : ' , [d , 1-d])
     if distributionQ[0] > c :
