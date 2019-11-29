@@ -44,7 +44,7 @@ def main():
     #                                  {'J': True, 'M':True},
     #                                  postOrderNodesCut, postOrderListCut)
 
-    distributionQ = ben.enumerateAsk([queryX, (True, False)], evidenceE, postOrderNodesCut, postOrderListCut)
+    distributionQ = ben.enumerateAsk([queryX, ('True', 'False')], evidenceE, postOrderNodesCut, postOrderListCut)
     print('Results from Exact Inference :     ', distributionQ)
     
     l1 = []
