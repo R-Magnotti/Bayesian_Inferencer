@@ -32,7 +32,7 @@ def enumerateAll(bn, e, vars):
     #must set network variable probabilities here
     for k, v in e.items():
         node = findNode(bn, k)
-        if v is True:
+        if v == 'True':
             node.value = 1
         else:
             node.value = 0
@@ -49,7 +49,7 @@ def enumerateAll(bn, e, vars):
 
         #XML order of probabilities is reversed
         #add truth value in REVERSE, so T = 0, F = 1
-        if y[1] is True:
+        if y[1] == 'True':
             truthValueList.append('0')
         else:
             truthValueList.append('1')
@@ -137,8 +137,8 @@ def enumerateAll(bn, e, vars):
         e1 = copy.deepcopy(e)
         e2 = copy.deepcopy(e)
 
-        e1[vars[0]] = True
-        e2[vars[0]] = False
+        e1[vars[0]] = 'True'
+        e2[vars[0]] = 'False'
 
         #print('grabbing probability of variable ', vars[0], ' with parents ',  parentNameList, ' has probability ', ithProbability1, ithProbability2, ' with binary value ', truthValueList1, truthValueList2, ' and decimal value ', decVal1, decVal2)
 
