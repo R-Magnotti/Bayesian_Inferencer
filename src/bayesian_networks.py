@@ -72,7 +72,6 @@ def space_parser(text):
   j = 0
   for i in range(len(text)):
     if text[i] == " ":
-      print(text[j:i])
       if remove_white_spaces(" " + text[j:i] + " ") != 5:
         l1.append(float(remove_white_spaces(" " + text[j:i] + " ")))
         j = i+1
@@ -158,7 +157,7 @@ def rejection_sampling(query_vars , evidence_vars , number_of_runs , network):
       count = count + 1
       if check_if_condition_satisfied(network , query_vars):
         event_count = event_count + 1
-  print(event_count/count , number)
+  return (float(event_count)/float(count))
 
 def probability(a):
   l1 = [a.value]
@@ -197,8 +196,3 @@ def likelihood_sampling(query_vars , evidence_vars , number_of_runs , network):
     if check_if_condition_satisfied(network , query_vars):
       event_count = event_count + weight
   return (event_count/count)
-
-#rejection_sampling([('dog-out' , 1)] , [('family-out' , 0) , ('light-on' , 1)] , 20000 , y)
-
-#likelihood_sampling([('family-out' , 1)] , [('dog-out' , 1) , ('bowel-problem' , 0) , ('hear-bark' , 1)] , 2000000 , y)
-
