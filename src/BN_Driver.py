@@ -53,8 +53,10 @@ def main():
             l1.append((k,1))
         if v == 'False' and k != queryX:
             l1.append((k,0))
+    d = qins.rejection_sampling([(queryX , 1)] , l1, 20000 , postOrderNodes)
     c = qins.likelihood_sampling([(queryX , 1)] , l1, 500000 , postOrderNodes)
     print('Results from Likelihood Sampling : ' , [c , 1-c])
+    print('Results from Rejection Sampling  : ' , [d , 1-d])
     if distributionQ[0] > c :
         error = ((distributionQ[0] - c)/(distributionQ[0])) * 100
     else:
