@@ -69,7 +69,7 @@
 <DEFINITION>
 	<FOR>light-on</FOR>
 	<GIVEN>family-out</GIVEN>
-	<TABLE>0.6 0.4 0.05 0.95 </TABLE>
+	<TABLE>0.6 0.05 0.4 0.95 </TABLE>
 </DEFINITION>
 
 <DEFINITION>
@@ -81,13 +81,13 @@
 	<FOR>dog-out</FOR>
 	<GIVEN>bowel-problem</GIVEN>
 	<GIVEN>family-out</GIVEN>
-	<TABLE>0.99 0.01 0.97 0.03 0.9 0.1 0.3 0.7</TABLE>
+	<TABLE>0.99 0.97 0.9 0.3 0.01 0.03 0.1 0.7</TABLE>
 </DEFINITION>
 
 <DEFINITION>
 	<FOR>hear-bark</FOR>
 	<GIVEN>dog-out</GIVEN>
-	<TABLE>0.7 0.3 0.01 0.99</TABLE>
+	<TABLE>0.7 0.01 0.3 0.99</TABLE>
 </DEFINITION>
 
 <DEFINITION>
