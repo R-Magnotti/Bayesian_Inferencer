@@ -65,8 +65,8 @@ def main():
         error1 = ((distributionQ[0] - d)/(distributionQ[0])) * 100
     else:
         error1 = ((-distributionQ[0] + d)/(distributionQ[0])) * 100
-    print("Percentage Error between Exact Inference and Likelihood Sampling : " , error)
-    print("Percentage Error between Exact Inference and Rejection Sampling  : " , error1)
+    print("Percentage difference between Exact Inference and Likelihood Sampling : " , error)
+    print("Percentage difference between Exact Inference and Rejection Sampling  : " , error1)
 
 if __name__ == '__main__':
     main()

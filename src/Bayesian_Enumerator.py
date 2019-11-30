@@ -1,10 +1,6 @@
 import copy
 
-#params:
-#   X = query X. 1 symbol: str/char
-#   evidence = as many variables as are provided as initial evidence. i number of symbols: dict
-#   bn = bayesian network, represented by unordered list
-#   varList = list of variables in topological order
+#primary exact enumeration function
 def enumerateAsk(X, evidence, bn, varList):
     #Q is the distribution which in our case will only have 2 elements:
     #   1 element for each possible value of our query: T and F
