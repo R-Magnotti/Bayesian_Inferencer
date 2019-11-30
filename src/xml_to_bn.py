@@ -46,7 +46,7 @@ def make_nodes(xml_node):
     if var[0].tag == 'NAME':
       var_nodes.append(bayesian_network(var[0].text))
     else:
-      print("Bro , your XML file is not in the format Jeet would approve of ~")
+      print("The XML file does not have the tag <NAME> as its first field , please reformat it")
   
   return var_nodes
 
@@ -95,7 +95,7 @@ def make_network(xml_node , var_nodes , root_node):
     l1.append(i)
   for i in l1:
     if not ((i[0].tag == 'FOR') and (i[len(i) - 1].tag == 'TABLE')):
-      print("Bro , your XML file is not in the format Jeet would approve of ~")
+      print("The XML file does not have either the first tag as <FOR> or does not have the last tag as <TABLE>, please reformat it")
     else:
       if len(i) == 2:
         t = find_corresponding_node(var_nodes , i[0].text)
